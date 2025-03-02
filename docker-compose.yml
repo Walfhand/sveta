@@ -1,0 +1,10 @@
+services:
+  sveta_landing_page:
+    build:
+      context: ./src/sveta.landing-page
+      dockerfile: Dockerfile
+    image: ${DOCKER_HUB_USERNAME:-sveta}/sveta_landing_page:${PLATFORM:-linux}-${TAG:-latest}
+    profiles:
+      - landing_page
+    ports:
+      - "3000:3000"
