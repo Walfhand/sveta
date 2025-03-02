@@ -1,3 +1,7 @@
 [submodule "sveta.frontend"]
 	path = src/sveta.frontend
 	url = https://github.com/Walfhand/sveta.frontend.git
+
+[submodule "sveta.landing-page"]
+	path = src/sveta.landing-page
+	url = https://github.com/Walfhand/sveta.landing-page.git
