@@ -38,12 +38,21 @@ jobs:
           debug: true
           strip_components: 1
 
-      - name: Run Make Prod on Server
+      - name: Run Make Prod on Server with Environment Variables
         uses: appleboy/ssh-action@v1.2.1
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd ~/sveta
-            make deploy-prod
+          passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
+        script: |
+          cd ~/sveta
+          echo "Création du fichier .env avec toutes les variables d'environnement..."
+          printenv | grep '^ENV_' | sed 's/^ENV_//' > .env
+          echo "Contenu du fichier .env généré :"
+          cat .env
+          make deploy-prod
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
