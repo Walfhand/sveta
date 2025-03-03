@@ -3,6 +3,9 @@ services:
     build:
       context: ./src/sveta.landing-page
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
     image: ${DOCKER_HUB_USERNAME:-sveta}/sveta_landing_page:${PLATFORM:-linux}-${TAG:-latest}
     profiles:
       - landing_page
