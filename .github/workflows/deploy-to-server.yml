@@ -22,14 +22,20 @@ jobs:
       - name: Check Files at Root
         run: ls -la
 
+      - name: Prepare Files for Deployment
+        run: |
+          mkdir -p deploy
+          cp docker-compose.yml Makefile deploy/
+
       - name: Copy Files to Server
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "./docker-compose.yml ./Makefile"
+          source: "deploy/*"
           target: "~/sveta/"
+          debug: true
 
       - name: Run Make Prod on Server
         uses: appleboy/ssh-action@v1.2.1
