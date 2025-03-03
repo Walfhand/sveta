@@ -19,6 +19,9 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Check Files at Root
+        run: ls -la
+
       - name: Copy Files to Server
         uses: appleboy/scp-action@v0.1.3
         with:
