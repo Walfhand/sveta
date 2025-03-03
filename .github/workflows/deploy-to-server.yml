@@ -47,7 +47,7 @@ jobs:
           script: |
             cd ~/sveta
             echo "Création du fichier .env avec toutes les variables d'environnement..."
-            printenv | grep '^ENV_' | sed 's/^ENV_//' > .env
+            printenv > .env
             echo "Contenu du fichier .env généré :"
             cat .env
             make deploy-prod
