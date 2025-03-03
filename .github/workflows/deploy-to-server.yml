@@ -44,14 +44,13 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
-        script: |
-          cd ~/sveta
-          echo "Création du fichier .env avec toutes les variables d'environnement..."
-          printenv | grep '^ENV_' | sed 's/^ENV_//' > .env
-          echo "Contenu du fichier .env généré :"
-          cat .env
-          make deploy-prod
+          script: |
+            cd ~/sveta
+            echo "Création du fichier .env avec toutes les variables d'environnement..."
+            printenv | grep '^ENV_' | sed 's/^ENV_//' > .env
+            echo "Contenu du fichier .env généré :"
+            cat .env
+            make deploy-prod
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
