@@ -11,3 +11,9 @@ services:
       - landing_page
     ports:
       - "3000:3000"
+    networks:
+      - sveta
+
+networks:
+  sveta:
+    driver: bridge
