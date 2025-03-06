@@ -12,6 +12,56 @@ services:
     networks:
       - sveta_network
 
+  sveta_api:
+    image: ${DOCKER_HUB_USERNAME:-sveta}/sveta_api:${PLATFORM:-linux}-${TAG:-latest}
+    profiles:
+      - backend
+    build: 
+      context: ./src
+      dockerfile: sveta.backend/src/Api/Dockerfile
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - Sk:ApiKey=$API_SK_API_KEY
+      - Sk:Uri=$API_SK_URI
+      - Sk:EmbeddingUri=$API_SK_EMBEDDING_URI
+      - Sk:StoreUri=$API_SK_STORE_URI
+    ports:
+      - "8080:8080"
+    networks:
+      - sveta_network
+    depends_on:
+      - redis
+      - embedding_service
+  
+  redis:
+    image: redis/redis-stack:latest
+    profiles:
+      - backend
+    ports:
+      - "6379:6379"
+      - "8002:8001"
+    volumes:
+      - redis-data:/data
+    networks:
+      - sveta_network
+  
+  embedding_service:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.6
+    environment:
+      - MODEL_ID=BAAI/bge-large-en-v1.5
+    ports:
+      - "8081:80"
+    volumes:
+      - embedding_data:/data
+    networks:
+      - sveta_network
+    profiles:
+      - backend
+
+volumes:
+  redis-data:
+  embedding_data:
+
 networks:
   sveta_network:
     external: true
